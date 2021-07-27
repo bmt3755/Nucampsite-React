@@ -1,7 +1,7 @@
 import Directory from './DirectoryComponent';
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import { CAMPSITES } from '../shared/campsites';
+import { CAMPSITES } from '../shared/campsites'
 import CampsiteInfo from './CampsiteInfoComponent';
 
 class Main extends Component {
@@ -9,7 +9,7 @@ class Main extends Component {
     super(props);
     this.state = {        
         campsites : CAMPSITES,
-        selectedCampsite: null
+        selectedCampsite: null,
         };
     }
 
@@ -25,9 +25,8 @@ class Main extends Component {
                     <NavbarBrand href="/">NuCamp</NavbarBrand>
                 </div>
                 </Navbar>
-                <Directory campsites = {this.state.campsites} onClick = {campsiteId => this.onCampsiteSelect(campsiteId)}/>
-                <CampsiteInfo campsite = {this.state.campsites.filter                                           
-                                            (campsite => campsite.id === this.state.selectedCampsite)[0]} />
+                <Directory campsites = {this.state.campsites} onClick = {campsiteId => this.onCampsiteSelect(campsiteId)}/>                
+                <CampsiteInfo campsite = {this.state.campsites.filter(campsite => campsite.id === this.state.selectedCampsite)[0]} />
             </div>
         );
     }
