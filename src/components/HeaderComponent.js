@@ -8,8 +8,6 @@ class Header extends Component {
     
     constructor(props) {
         super(props);
-
-        
         this.state = {
             isNavOpen: false,
             isModalOpen: false
@@ -40,7 +38,7 @@ class Header extends Component {
 
     render() {
         return(
-            <React.Fragment> /*this acts as a wrapper around multiple components, it wont create extra DOM node*/
+            <React.Fragment> 
                 <Jumbotron fluid>
                     <div className = "container">
                         <div className="row">
@@ -110,7 +108,7 @@ class Header extends Component {
                                     Remember me
                                 </Label>
                             </FormGroup>
-                            <Button type="submit" value="submit" color="primary">Login</Button>
+                            
                         </Form>
                     </ModalBody>
                 </Modal> 
