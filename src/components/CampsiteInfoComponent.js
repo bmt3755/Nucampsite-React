@@ -5,6 +5,7 @@ import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem,
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import Label from "reactstrap/lib/Label";
+import { Loading } from './LoadingComponent';
 
 class CampsiteInfo extends Component {
 
@@ -25,7 +26,7 @@ class CampsiteInfo extends Component {
             </div>
         );
     }
-    renderComments(comments) {
+    renderComments({comments, addComment, campsiteId}) {
         if(comments) {
             return (
                 <div className = "col-md-5 m-1">
@@ -37,7 +38,7 @@ class CampsiteInfo extends Component {
                         {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
                         </div>
                     )}    
-                    <CommentForm/>                    
+                    <CommentForm campsiteId={campsiteId} addComment={addComment} />                   
                 </div>
                 
             );
@@ -45,6 +46,27 @@ class CampsiteInfo extends Component {
         }
     }
     render() {       
+        function CampsiteInfo(props) {
+            if (props.isLoading) {
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <Loading />
+                        </div>
+                    </div>
+                );
+            }
+            if (props.errMess) {
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <h4>{props.errMess}</h4>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
         if(this.props.campsite) {
             return (
                 <div className="container">
@@ -60,17 +82,22 @@ class CampsiteInfo extends Component {
                     </div>
                     <div className="row">
                         {this.renderCampsite(this.props.campsite)}
-                        {this.renderComments(this.props.comments)}
+                        <this.renderComments 
+                        comments={this.props.comments}
+                        addComment={this.props.addComment}
+                        campsiteId={this.props.campsite.id}
+                        />
+                        
                     </div>
                 </div>
             );
         }
-        else 
-        return <div></div>;
-        
-        
     }
+    return <div></div>
 }
+}
+
+
 
 const required = val => val && val.length;
 const minLength = len => val => val && (val.length >= len);
@@ -91,10 +118,10 @@ class CommentForm extends Component{
         });
     }
 
-    handleSubmit(values){
-        console.log("Current state is: " + JSON.stringify(values));
-        alert("Current state is: " + JSON.stringify(values));
-    };
+    handleSubmit(values) {
+        this.toggleModal();
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+    }
 
     render() {
         return(
